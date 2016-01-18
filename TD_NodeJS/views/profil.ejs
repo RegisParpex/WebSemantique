@@ -1,0 +1,13 @@
+﻿<% var title = 'Main' %>
+<% include head %>
+
+<a href="/profil/<%= user.id %>/edit" >Edit</a>
+
+<div><%= user.nom %></div>
+<%= user.prenom %>
+<%= user.email %>
+<img src="<%= user.profilPic %>" />
+
+<a href="/main" >Retour</a>
+
+<% include foot %>

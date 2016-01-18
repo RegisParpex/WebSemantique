@@ -1,0 +1,17 @@
+﻿<% var title = 'Main' %>
+<% include head %>
+
+<h1>Hello <%= user.firstname %></h1>
+<div>
+	<img src="<%= user.profilPic %>" />
+	<a href="/profil/<%= user.id %>">Mon profil</a>
+</div>
+<a href="/paint">Dessiner</a>
+<ul>
+<% for(var i=0; i<userDraw.length; i++) {%>
+   <li><a href="/guess?id=<%= userDraw[i]['id'] %>">Dessin <%= userDraw[i]['id'] %></a></li>
+<% } %>
+</ul>
+<a href="/logout">Déconnexion</a>
+
+<% include foot %>
