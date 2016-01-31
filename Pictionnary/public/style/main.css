@@ -1,0 +1,22 @@
+.img-profil
+{
+	width:50px;
+	height:50px;
+}
+
+.img-profil-lg
+{
+	width:160px;
+	height:160px;
+}
+
+.navbar-nav>li:last-of-type>a
+{
+	padding-top: 0px;
+    padding-bottom: 0px;	
+}
+
+canvas
+{
+	border:1px solid #c3c3c3;
+}

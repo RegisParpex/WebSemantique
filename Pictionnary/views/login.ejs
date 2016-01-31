@@ -1,0 +1,23 @@
+<% var title = 'Formulaire login' %>
+<% var connected = false %>
+
+<% include head %>
+
+<h1>Login</h1>
+Accés a <a href="/inscription">l'inscription</a>
+<form method="post" action="/login">
+  <p>
+    <label>Email:</label>
+    <input type="text" name="email">
+  </p>
+  <p>
+    <label>Password:</label>
+    <input type="password" name="password">
+  </p>
+  <p>
+    <input type="submit" value="Login">
+  </p>
+  <a href="/login/facebook">Log with facebook</a>
+</form>
+
+<% include foot %>

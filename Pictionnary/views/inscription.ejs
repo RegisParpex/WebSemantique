@@ -1,7 +1,9 @@
-<% var title = 'Mon profil' %>
+<% var title = 'Formulaire inscription' %>
+<% var connected = false %>
+
 <% include head %>
 
-<h2>Mon profil</h2>
+<h2>Inscrivez-vous</h2>
 
 <form class="inscription" action="/inscription" method="post" name="inscription">
 	<span class="required_notification">Les champs obligatoires sont indiqués par *</span>
@@ -9,7 +11,7 @@
 		</li>
 		<li>
 			<label for="email">E-mail :</label>
-			<input type="email" name="email" id="email" placeholder="Email" autofocus required="required" value="<%= query.email %>" />
+			<input type="email" name="email" id="email" placeholder="Email" autofocus required="required"/>
 			<span class="form_hint">Format attendu "name@something.com"</span>
 		</li>
 		<li>
@@ -64,7 +66,7 @@
 		</li>
 		<li>
 			<label for="birthdate">Date de naissance:</label>
-			<input type="date" name="birthdate" id="birthdate" placeholder="JJ/MM/AAAA" required onchange="computeAge()" value="<%= query.birthdate.substring(0,10) %>"/>
+			<input type="date" name="birthdate" id="birthdate" placeholder="JJ/MM/AAAA" required onchange="computeAge()" value="<%= query.birthdate %>"/>
 			<script>
 				computeAge = function(e) {
 					try{
@@ -171,6 +173,6 @@
 		</li>
 	</ul>
 </form>
-<a href="/profil/<%= query.id %>">Retour</a>
+<a href="/login">Retour au login</a>
 
 <% include foot %>

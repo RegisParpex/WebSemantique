@@ -1,0 +1,43 @@
+﻿<% var title = 'Main' %>
+<% var connected = true %>
+
+<% include head %>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default" style="text-align:center">
+			<h3>Bonjour <%= user.prenom %></h3>
+			<a href="/paint" class="btn btn-default">Dessiner</a>
+			<br/>
+			<br/>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-default" style="text-align:center">
+			<h3>My drawings</h3>
+			<ul class="list-group">
+			<% for(var i=0; i<userDraw.length; i++) {%>
+				<% if(userDraw[i]['userId'] == user.id) { %>
+				<li class="list-group-item"><a href="/guess/<%= userDraw[i]['id'] %>" class="btn btn-default">Dessin <%= userDraw[i]['id'] %></a></li>
+				<% } %>
+			<% } %>
+			</ul>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="panel panel-default" style="text-align:center">
+			<h3>All drawings</h3>
+			<ul class="list-group">
+			<% for(var i=0; i<userDraw.length; i++) {%>
+			   <li class="list-group-item"><a href="/guess?id=<%= userDraw[i]['id'] %>" class="btn btn-default">Dessin <%= userDraw[i]['id'] %></a></li>
+			<% } %>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<% include foot %>

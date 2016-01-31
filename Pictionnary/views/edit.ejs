@@ -1,0 +1,62 @@
+<% var title = 'Mon profil' %>
+<% var connected = true %>
+
+<% include head %>
+
+<h2>Mon profil</h2>
+
+<form action="/profil/<%= user.id %>/edit" method="post">
+	<span class="required_notification">Les champs obligatoires sont indiqués par *</span>
+	<ul>
+		</li>
+		<li>
+			<label for="email">E-mail :</label>
+			<input type="email" name="email" id="email" placeholder="Email" autofocus required="required" value="<%= user.email %>" />
+			<span class="form_hint">Format attendu "name@something.com"</span>
+		</li>
+		<li>
+			<label for="prenom">Prénom :</label>
+			<input type="text" name="prenom" id="prenom" placeholder="Prénom" required="required" value="<%= user.prenom %>"/>
+		</li>
+		<li>
+			<label for="nom">Nom :</label>
+			<input type="text" name="nom" id="nom" placeholder="Nom" value="<%= user.nom %>"/>
+		</li>
+		<li>
+			<label for="telephone">Téléphone :</label>
+			<input type="tel" name="tel" id="telephone" placeholder="Téléphone" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$"  value="<%= user.tel %>"/>
+		</li>
+		<li>
+			<label for="siteWeb">Site web :</label>
+			<input type="url" name="website" id="siteWeb" placeholder="Site web"  value="<%= user.website %>"/>
+		</li>
+		<li>
+			<label>Sexe :</label>
+			<input type="radio" name="sexe" value="male" id="male"  <% if(user.sexe == "male") { %> checked <% } %> /><label for="male">Male</label>
+			<input type="radio" name="sexe" value="female" id="female" <% if(user.sexe == "female") { %> checked <% } %> /><label for="female">Female</label>
+		</li>
+		<li>
+			<label for="birthdate">Date de naissance:</label>
+			<input type="date" name="birthdate" id="birthdate" placeholder="JJ/MM/AAAA" required value="<% if(user.birthdate) { return user.birthdate.substring(0,10); } %>"/>
+			<span class="form_hint">Format attendu "JJ/MM/AAAA"</span>
+		</li>
+		<li>
+			<label for="ville">Ville :</label>
+			<input type="text" name="ville" id="ville" placeholder="Ville" value="<%= user.ville %>"/>
+		</li>
+		<li>
+			<label for="taille">Taille :</label>
+			<input type="range" name="taille" id="taille" value="0" min="0" max="2.5" step="0.01" placeholder="Taille" value="<%= user.taille %>"/>
+		</li>
+		<li>
+			<label for="couleur">Couleur préférée :</label>
+			<input type="color"value="#000000" name="couleur" id="couleur" placeholder="Couleur préférée" value="<%= user.couleur %>" />
+		</li>
+		<li>
+			<input type="submit" value="Modifier">
+		</li>
+	</ul>
+</form>
+<a href="/profil/<%= user.id %>">Retour</a>
+
+<% include foot %>

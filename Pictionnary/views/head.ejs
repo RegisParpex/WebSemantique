@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+	<link rel="stylesheet" type="text/css" href="/style/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/style/main.css">
+    <style>
+        body {
+            padding: 50px;
+            font: 13px Helvetica, Arial, sans-serif;
+        }
+        .error {
+            color: red
+        }
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/main">Pictionnary</a>
+			</div>
+			<% if(connected) { %>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/logout">Déconnexion</a></li>
+					<li><a href="/profil/<%= user.id %>"><%= user.prenom %> <%= user.nom %><img src="<%= user.profilPic %>" class="img-profil"/></a></li>
+				</ul>
+			</div>
+			<% } %>
+		</div>
+	</nav>
+	
+	<br/>

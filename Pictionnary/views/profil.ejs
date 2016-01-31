@@ -1,0 +1,26 @@
+﻿<% var title = 'Main' %>
+<% var connected = true %>
+
+<% include head %>
+
+<div class="col-md-2">
+	<img src="<%= user.profilPic %>" class="img-profil-lg"/>
+	<div>
+		<a href="/profil/<%= user.id %>/editPic" >Modifier l'image</a>
+	</div>
+</div>
+
+<div class="col-md-8">
+	<ul>
+		<li>Nom : <%= user.nom %></li>
+		<li>Prenom :<%= user.prenom %></li>
+		<li>Email : <%= user.email %></li>
+	</ul>
+	<a href="/profil/<%= user.id %>/edit" >Modifier profil</a>
+</div>
+
+<div class="col-md-8">
+	<a href="/profil/<%= user.id %>/editPass" >Modifier mot de passe</a>
+</div>
+
+<% include foot %>
