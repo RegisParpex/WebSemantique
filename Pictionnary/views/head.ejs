@@ -26,6 +26,9 @@
 			<% if(connected) { %>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
+					<% if(user.role == 'Admin') { %>
+					<li><a href="/admin">Administration</a></li>
+					<% } %>
 					<li><a href="/logout">Déconnexion</a></li>
 					<li><a href="/profil/<%= user.id %>"><%= user.prenom %> <%= user.nom %><img src="<%= user.profilPic %>" class="img-profil"/></a></li>
 				</ul>

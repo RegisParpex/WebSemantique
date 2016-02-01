@@ -55,24 +55,23 @@ app.get('/login/facebook/callback', passport.authenticate('facebook', {failureRe
 	});
 	connection.connect();
 	
-	logger.info(req.user);
 	connection.query("SELECT * FROM users WHERE facebookId = ?", req.user._json.id, function(err, rows, fields) {
 		if (!err) {
 			if(rows.length > 0) {	
-				req.session.user = {};
-				req.session.user.id = rows[0].id;
-				req.session.user.email = rows[0].email;
-				req.session.user.nom = rows[0].nom;
+				req.session.user = new userInfo(rows[0]);
 				res.redirect('/main');
 			} else {
 				logger.info('New user');
-				var insert = {email:req.user._json.email, nom:req.user._json.name, facebookId:req.user._json.id};
+				var insert = {email:req.user._json.email, nom:req.user._json.name, facebookId:req.user._json.id, role:"User"};
 				connection.query("INSERT INTO users SET ? ", insert, function(err, rows, fields) {
 					if (!err) {
-						req.session.id = rows.insertId;
-						req.session.email = update.email;
-						req.session.nom = update.name;
-						req.session.facebookId = update.facebookId;
+						req.session.user = {};
+						req.session.user.id = rows.insertId;
+						req.session.user.email = update.email;
+						req.session.user.nom = update.name;
+						req.session.user.facebookId = update.facebookId;
+						req.session.user.role = 'User';
+						res.redirect('/main');
 					} else {
 						logger.info('Error while performing Query.' + err);
 					}
@@ -134,7 +133,7 @@ app.post('/inscription', function(req, res) {
 		password : 'test',
 		database : 'pictionnary'
 	});
-	var post = {email: req.body.email, password: req.body.password, nom: req.body.nom, prenom: req.body.prenom, tel: req.body.tel, website: req.body.website, sexe: req.body.sexe, birthdate: req.body.birthdate, ville: req.body.ville, taille: req.body.taille, couleur: req.body.couleur, profilepic: req.body.profilepic};
+	var post = {email: req.body.email, password: req.body.password, nom: req.body.nom, prenom: req.body.prenom, tel: req.body.tel, website: req.body.website, sexe: req.body.sexe, birthdate: req.body.birthdate, ville: req.body.ville, taille: req.body.taille, couleur: req.body.couleur, profilepic: req.body.profilepic, role:"User"};
 	connection.connect();
 	connection.query("SELECT COUNT(*) AS numberRow FROM users WHERE email=? ", req.body.email, function(err, rows, fields) {
 		if (!err) {
@@ -265,7 +264,7 @@ app.post('/profil/:userId/edit', function(req, res) {
 			database : 'pictionnary'
 		});
 		connection.connect();
-		var update = {email:req.body.email, nom:req.body.nom, prenom:req.body.prenom, couleur:req.body.couleur};
+		var update = {email:req.body.email, nom:req.body.nom, prenom:req.body.prenom, couleur:req.body.couleur, tel:req.body.tel, website:req.body.website, sexe:req.body.sexe, birthdate:req.body.birthdate, ville:req.body.ville, taille:req.body.taille};
 		connection.query("UPDATE users SET ? WHERE ?", [update, {id:req.params.userId}], function(err, rows, fields) {
 			if (!err) {
 				if(req.session.user.id == req.params.userId) {
@@ -273,6 +272,12 @@ app.post('/profil/:userId/edit', function(req, res) {
 					req.session.user.nom  = update.nom;
 					req.session.user.prenom  = update.prenom;
 					req.session.user.couleur  = update.couleur;
+					req.session.user.tel  = update.tel;
+					req.session.user.website  = update.website;
+					req.session.user.sexe  = update.sexe;
+					req.session.user.birthdate  = update.birthdate;
+					req.session.user.ville  = update.ville;
+					req.session.user.taille  = update.taille;
 				}
 				res.redirect('/profil/' + req.params.userId);
 			} else {
@@ -286,11 +291,37 @@ app.get('/profil/:userId', function(req, res) {
 	if(!req.session.user) {
 		res.redirect('/');
 	} else {
-		res.render('profil', {user:req.session.user}); // TODO : Get user with special id
+		var connection = mysql.createConnection({
+			host     : 'localhost',
+			user     : 'test',
+			password : 'test',
+			database : 'pictionnary',
+		});
+		connection.connect();
+		connection.query("SELECT * FROM users WHERE id= ?;", req.params.userId,  function(err, rows) {
+			if (!err) {
+				if(rows.length > 0) {
+					res.render('profil', {user:new userInfo(rows[0])});
+				} else {
+					res.redirect('/'); // TODO : Error redirection
+				}
+			} else {
+				logger.info('Error while performing Query draw row.' + err);
+			}
+		});
+		connection.end();
 	}
 });
 
-app.use(function(req, res) { res.send('404 not found');});
+app.get('/profil/:userId', function(req, res) {
+	if(!req.session.user && req.session.user.role == "Admin") {
+		
+	} else {
+		res.redirect('/'); // TODO : Error redirection
+	}
+});
+
+app.use(function(req, res) { res.render('error', {user:req.session.user, message:"404 not found"});});
 
 app.listen(1313);
 
@@ -306,7 +337,8 @@ function userInfo(data) {
 	this.ville = data['ville'];
 	this.taille = data['taille'];
 	this.couleur = data['couleur'];
-	this.profilPic = data['profilepic'].toString('utf8');
+	if(data['profilepic']) this.profilPic = data['profilepic'].toString('utf8');
+	this.role = data['role'];
 }
 
 

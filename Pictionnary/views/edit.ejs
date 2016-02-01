@@ -37,7 +37,7 @@
 		</li>
 		<li>
 			<label for="birthdate">Date de naissance:</label>
-			<input type="date" name="birthdate" id="birthdate" placeholder="JJ/MM/AAAA" required value="<% if(user.birthdate) { return user.birthdate.substring(0,10); } %>"/>
+			<input type="date" name="birthdate" id="birthdate" placeholder="JJ/MM/AAAA" required value="<% if(user.birthdate) { %><%= user.birthdate.substring(0,10) %><%} %>"/>
 			<span class="form_hint">Format attendu "JJ/MM/AAAA"</span>
 		</li>
 		<li>
