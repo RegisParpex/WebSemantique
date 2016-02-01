@@ -5,7 +5,7 @@
   "keywords": [
     "NODEJS"
   ],
-  "author": "Damien Clemenceau <damien.clemenceau@outlook.com",
+  "author": "Damien Clemenceau <damien.clemenceau@outlook.com>",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.14.2",

@@ -28,6 +28,6 @@ Go to : ``` localhost:1313/ ```
 * Add a google and twitter passport 
 * Change the session handling
 * Add an admin panel
-* Add the possibilities to change the password and profilepic
+* Add the possibilities to change the password
 * Add the possibilities to link/remove your account to face/google/twitter in the profil management
 * Delete the profil

@@ -284,6 +284,58 @@ app.post('/profil/:userId/edit', function(req, res) {
 				console.log('Error while performing Query.' + err);
 			}
 		});
+		connection.end();
+	}
+});
+
+app.get('/profil/:userId/delete', function(req, res) {
+	if(!req.session.user) {
+		res.redirect('/');
+	} else if(req.session.user.id == req.params.userId || req.session.user.role == "Admin"){
+		var connection = mysql.createConnection({
+			host     : 'localhost',
+			user     : 'test',
+			password : 'test',
+			database : 'pictionnary'
+		});
+		connection.connect();
+		connection.query("DELETE FROM users WHERE id=?", req.params.userId, function(err, rows) {
+			if(req.session.user.id == req.params.userId) {	
+				res.redirect('/logout');
+			} else {
+				res.redirect('/admin');
+			} 
+		});
+		connection.end();
+	} else {
+		res.redirect('/profil/' + req.params.userId);
+	}
+});
+
+app.get('/profil/:userId/editPic', function(req, res) { 
+	if(!req.session.user) {
+		res.redirect('/');
+	} else {
+		res.render('profilPic', {user:req.session.user});
+	}
+});
+
+app.post('/profil/:userId/editPic', function(req, res) { 
+	if(!req.session.user) {
+		res.redirect('/');
+	} else {
+		var connection = mysql.createConnection({
+			host     : 'localhost',
+			user     : 'test',
+			password : 'test',
+			database : 'pictionnary'
+		});
+		connection.connect();
+		connection.query("UPDATE users SET ? WHERE ?", [{profilepic:req.body.profilepic}, {id:req.params.userId}], function(err, rows, fields) {
+			req.session.user.profilPic = req.body.profilepic;
+			res.redirect('/profil/' + req.params.userId);
+		});
+		connection.end();
 	}
 });
 
@@ -310,14 +362,6 @@ app.get('/profil/:userId', function(req, res) {
 			}
 		});
 		connection.end();
-	}
-});
-
-app.get('/profil/:userId', function(req, res) {
-	if(!req.session.user && req.session.user.role == "Admin") {
-		
-	} else {
-		res.redirect('/'); // TODO : Error redirection
 	}
 });
 
